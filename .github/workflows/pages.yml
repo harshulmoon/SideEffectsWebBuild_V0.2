@@ -27,6 +27,19 @@ jobs:
       - name: Ensure LFS files are present
         run: git lfs pull
 
+      - name: Materialize LFS files
+        run: git lfs checkout
+
+      - name: Verify no LFS pointer files in Build
+        run: |
+          if grep -R "git-lfs.github.com/spec/v1" -n Build; then
+            echo "ERROR: LFS pointer files detected in Build/"
+            exit 1
+          fi
+
+      - name: Show Build file sizes (sanity)
+        run: ls -lh Build | head -n 50
+
       - name: Disable Jekyll
         run: touch .nojekyll
 
@@ -36,4 +49,8 @@ jobs:
           path: .
 
       - name: Deploy to GitHub Pages
+<<<<<<< HEAD
         uses: actions/deploy-pages@v4
+=======
+        uses: actions/deploy-pages@v4
+>>>>>>> b8b987d52b620dee3e7fac940d8d2f93ccd87599
