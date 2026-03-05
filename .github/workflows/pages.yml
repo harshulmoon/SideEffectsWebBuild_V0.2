@@ -17,18 +17,20 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout (with LFS)
         uses: actions/checkout@v4
         with:
           lfs: true
-          fetch-depth: 1
+          fetch-depth: 0
+          persist-credentials: true
 
-      - name: Fetch LFS objects
-        run: git lfs pull
-
-      - name: Materialize LFS files
-        run: git lfs checkout
+      - name: Ensure Git LFS files are present
+        run: |
+          git lfs version
+          git lfs pull
+          git lfs checkout
 
       - name: Verify no LFS pointer files in Build
         run: |
@@ -36,6 +38,16 @@ jobs:
             echo "ERROR: LFS pointer files detected in Build/"
             exit 1
           fi
+
+      # Optional but very useful debug: adjust filename to your actual file
+      - name: Debug one Build file (size + first line)
+        run: |
+          ls -lh Build | head -n 50
+          echo "---- first line ----"
+          head -n 1 Build/*.framework.js.br || true
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
       - name: Disable Jekyll
         run: touch .nojekyll
@@ -46,4 +58,5 @@ jobs:
           path: .
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
