@@ -1,9 +1,9 @@
 const cacheName = "DefaultCompany-Roulette-0.1.0";
 const contentToCache = [
     "Build/SideEffectsWebBuild_V0.2.loader.js",
-    "Build/SideEffectsWebBuild_V0.2.framework.js.br",
-    "Build/SideEffectsWebBuild_V0.2.data.br",
-    "Build/SideEffectsWebBuild_V0.2.wasm.br",
+    "Build/SideEffectsWebBuild_V0.2.framework.js",
+    "Build/SideEffectsWebBuild_V0.2.data",
+    "Build/SideEffectsWebBuild_V0.2.wasm",
     "TemplateData/style.css"
 
 ];
