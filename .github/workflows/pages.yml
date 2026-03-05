@@ -2,7 +2,7 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
           lfs: true
           fetch-depth: 1
 
-      - name: Ensure LFS files are present
+      - name: Fetch LFS objects
         run: git lfs pull
 
       - name: Materialize LFS files
@@ -37,9 +37,6 @@ jobs:
             exit 1
           fi
 
-      - name: Show Build file sizes (sanity)
-        run: ls -lh Build | head -n 50
-
       - name: Disable Jekyll
         run: touch .nojekyll
 
@@ -49,8 +46,4 @@ jobs:
           path: .
 
       - name: Deploy to GitHub Pages
-<<<<<<< HEAD
         uses: actions/deploy-pages@v4
-=======
-        uses: actions/deploy-pages@v4
->>>>>>> b8b987d52b620dee3e7fac940d8d2f93ccd87599
